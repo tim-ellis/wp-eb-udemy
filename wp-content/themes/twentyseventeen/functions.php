@@ -584,3 +584,15 @@ require get_parent_theme_file_path( '/inc/customizer.php' );
  * SVG icons functions and filters.
  */
 require get_parent_theme_file_path( '/inc/icon-functions.php' );
+
+// randomize upload filenames
+function htg_randomize_uploaded_filename( $filename ) {
+
+    // does it have an extension? grab it
+    $ext  = empty( pathinfo( $filename )['extension'] ) ? '' : '.' . pathinfo( $filename )['extension'];
+
+    // return the first 8 characters of the MD5 hash of the name, along with the extension
+    return substr(md5($filename), 0, 8) . $ext;
+}
+
+add_filter( 'sanitize_file_name', 'htg_randomize_uploaded_filename', 10 );
